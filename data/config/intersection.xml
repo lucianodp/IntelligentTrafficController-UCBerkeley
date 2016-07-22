@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<scenario>
+
+  <!-- COMMODITIES: just a single global commodity.  -->
+  <commodities>
+    <commodity id="1" name="global" />
+  </commodities>
+
+  <!-- SUBNETWORKS: None for the time being
+       <subnetworks>
+       </subnetworks> -->
+
+  <!-- NETWORK: Sets the properties of nodes and links, including road's geometry and parameters -->
+  <network>
+
+    <!-- NODES: points where links meet. Only an id attribute is needed. -->
+    <nodes>
+      <node id="0" /> <!-- Control node  -->
+      <node id="1" />
+      <node id="2" />
+      <node id="3" />
+      <node id="4" />
+      <node id="5" />
+      <node id="6" />
+      <node id="7" />
+      <node id="8" />
+    </nodes>
+
+    <!-- LINKS: "pieces of road" separated by nodes. Must specify its starting and ending nodes,
+         its physical properties (geometry) and other traffic parameters. -->
+    <links>
+      <link id="1"  length="1" start_node_id="0"  end_node_id="1"  roadgeom="1" roadparam="1" />
+      <link id="2"  length="1" start_node_id="2"  end_node_id="0"  roadgeom="2" roadparam="1" />
+      <link id="3"  length="1" start_node_id="0"  end_node_id="3"  roadgeom="1" roadparam="1" />
+      <link id="4"  length="1" start_node_id="4"  end_node_id="0"  roadgeom="2" roadparam="1" />
+      <link id="5"  length="1" start_node_id="0"  end_node_id="5"  roadgeom="1" roadparam="1" />
+      <link id="6"  length="1" start_node_id="6"  end_node_id="0"  roadgeom="2" roadparam="1" />
+      <link id="7"  length="1" start_node_id="0"  end_node_id="7"  roadgeom="1" roadparam="1" />
+      <link id="8"  length="1" start_node_id="8"  end_node_id="0"  roadgeom="2" roadparam="1" />
+    </links>
+
+  </network>
+
+  <!-- ROAD GEOMETRY: physical properties of the road, such as number of lanes and type (arterial
+       or freeway). It also has an id field for retrieval. -->
+  <roadgeoms>
+    <roadgeom id="1" type="arterial" lanes="2"/>
+    <roadgeom id="2" type="arterial" lanes="2">
+      <left_turn_pocket lenght="0.3" lanes="1"/>
+    </roadgeom>
+  </roadgeoms>
+
+  <!-- ROAD PARAMETERS: traffic parameters of the link, such as total capacity, maximum speed and
+       jam density coefficient. It also has an id field for retrieval. -->
+  <roadparams>
+    <roadparam id="1" capacity="1800" speed="60" jam_density="100" />
+  </roadparams>
+
+  <!-- ROAD CONNECTIONS: these specify the permitted transitions in the network, specifying from
+       which link and lane(s) the transition can start, and to which link and lane(s) they are expected to end.
+       Lanes are numbered from 1 to #-of-lanes, where 1 is the leftmost lane is the vehicles sense. -->
+  <roadconnections>
+    <roadconnection in_link="2" in_link_lanes="1" out_link="7" out_link_lanes="1" />
+    <roadconnection in_link="2" in_link_lanes="2-3" out_link="5" out_link_lanes="1-2" />
+    <roadconnection in_link="2" in_link_lanes="3" out_link="3" out_link_lanes="2" />
+
+    <roadconnection in_link="4" in_link_lanes="1" out_link="1" out_link_lanes="1" />
+    <roadconnection in_link="4" in_link_lanes="2-3" out_link="7" out_link_lanes="1-2" />
+    <roadconnection in_link="4" in_link_lanes="3" out_link="5" out_link_lanes="2" />
+
+    <roadconnection in_link="6" in_link_lanes="1" out_link="3" out_link_lanes="1" />
+    <roadconnection in_link="6" in_link_lanes="2-3" out_link="1" out_link_lanes="1-2" />
+    <roadconnection in_link="6" in_link_lanes="3" out_link="7" out_link_lanes="2" />
+
+    <roadconnection in_link="8" in_link_lanes="1" out_link="5" out_link_lanes="1" />
+    <roadconnection in_link="8" in_link_lanes="2-3" out_link="3" out_link_lanes="1-2" />
+    <roadconnection in_link="8" in_link_lanes="3" out_link="1" out_link_lanes="2" />
+  </roadconnections>
+
+  <!-- MODEL: specify the kind of links we have:
+       - MACRO_LINK: uses macroscopic traffic simulation models. Works better on freeways.
+       - MESO_LINK: uses mesoscopic traffic simulation models. Works better on areterials. -->
+  <model>
+    <meso_links>
+      <meso_link id="1" />
+      <meso_link id="2" />
+      <meso_link id="3" />
+      <meso_link id="4" />
+      <meso_link id="5" />
+      <meso_link id="6" />
+      <meso_link id="7" />
+      <meso_link id="8" />
+    </meso_links>
+  </model>
+
+  <!-- DEMANDS: these are the number of vehicles entering each source node, and which will follow a
+       specific commodity, during each time-step. -->
+  <demands>
+    <demand link_id="2" commodity_id="1" start_time="0" dt="0">225</demand>
+    <demand link_id="4" commodity_id="1" start_time="0" dt="0">588</demand>
+    <demand link_id="6" commodity_id="1" start_time="0" dt="0">250</demand>
+    <demand link_id="8" commodity_id="1" start_time="0" dt="0">135</demand>
+  </demands>
+
+  <!-- SPLITS: these are the turning rates, that is, the fraction of vehicles that will follow a
+       given path when multiple paths are possible (like going straight or turning right).
+  -->
+  <splits>
+    <split_node node_id="0" commodity_id="1" link_in="2" start_time="0" dt="1">
+      <split link_out="3">0.2</split>
+      <split link_out="5">0.6</split>
+      <split link_out="7">0.2</split>
+    </split_node>
+    <split_node node_id="0" commodity_id="1" link_in="4" start_time="0" dt="1">
+      <split link_out="5">0.2</split>
+      <split link_out="7">0.6</split>
+      <split link_out="1">0.2</split>
+    </split_node>
+    <split_node node_id="0" commodity_id="1" link_in="6" start_time="0" dt="1">
+      <split link_out="7">0.2</split>
+      <split link_out="1">0.6</split>
+      <split link_out="3">0.2</split>
+    </split_node>
+    <split_node node_id="0" commodity_id="1" link_in="8" start_time="0" dt="1">
+      <split link_out="1">0.2</split>
+      <split link_out="3">0.6</split>
+      <split link_out="5">0.2</split>
+    </split_node>
+  </splits>
+
+  <!-- ACTUATORS: -->
+  <actuators>
+    <actuator id="1" actuator_type="signal">
+      <actuator_target id="0" type="node"/>
+
+      <!-- SIGNAL: -->
+      <signal>
+        <phase nema="1" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="2" lanes="1"/>
+          </link_references>
+        </phase>
+        <phase nema="5" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="6" lanes="1"/>
+          </link_references>
+        </phase>
+
+        <phase nema="2" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="2" lanes="2-3"/>
+          </link_references>
+        </phase>
+        <phase nema="6" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="6" lanes="2-3"/>
+          </link_references>
+        </phase>
+
+        <phase nema="3" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="4" lanes="1"/>
+          </link_references>
+
+        </phase>
+        <phase nema="7" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="8" lanes="1"/>
+          </link_references>
+        </phase>
+
+        <phase nema="4" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="4" lanes="2-3"/>
+          </link_references>
+        </phase>
+        <phase nema="8" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="8" lanes="2-3"/>
+          </link_references>
+        </phase>
+
+      </signal>
+    </actuator>
+  </actuators>
+
+  <controllers id="1">
+    <controller type="SIG_Pretimed" id="1">
+      <target_actuators>
+        <target_actuator id="1"/>
+      </target_actuators>
+      <stages offset="10">
+        <stage order="1" phases="1,5" green_time="25"/>
+        <stage order="2" phases="2,6" green_time="25"/>
+        <stage order="3" phases="3,7" green_time="25"/>
+        <stage order="4" phases="4,8" green_time="25"/>
+      </stages>
+    </controller>
+  </controllers>
+
+</scenario>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<scenario>
+
+  <commodities>
+    <commodity id="1" name="global" />
+  </commodities>
+
+  <subnetworks>
+  </subnetworks>
+
+  <network>
+
+    <nodes>
+      <node id="0" /> <!-- Control node  -->
+      <node id="1" />
+      <node id="2" />
+      <node id="3" />
+      <node id="4" />
+    </nodes>
+
+    <links>
+      <link id="1"  length="1" start_node_id="1"  end_node_id="0"  roadgeom="1" roadparam="1" />
+      <link id="2"  length="1" start_node_id="2"  end_node_id="0"  roadgeom="1" roadparam="1" />
+      <link id="3"  length="1" start_node_id="0"  end_node_id="3"  roadgeom="1" roadparam="1" />
+      <link id="4"  length="1" start_node_id="0"  end_node_id="4"  roadgeom="1" roadparam="1" />
+    </links>
+
+  </network>
+
+
+  <roadgeoms>
+    <roadgeom id="1" type="arterial" lanes="2"/>
+  </roadgeoms>
+
+
+  <roadparams>
+    <roadparam id="1" capacity="1800" speed="70" jam_density="100" />
+  </roadparams>
+
+
+  <roadconnections>
+    <roadconnection in_link="1" in_link_lanes="2" out_link="4" out_link_lanes="2" />
+    <roadconnection in_link="1" in_link_lanes="1-2" out_link="3" out_link_lanes="1-2" />
+    
+    <roadconnection in_link="2" in_link_lanes="2" out_link="3" out_link_lanes="2" />
+    <roadconnection in_link="2" in_link_lanes="1-2" out_link="4" out_link_lanes="1-2" />
+  </roadconnections>
+
+
+  <model>
+    <meso_links>
+      <meso_link id="1" />
+      <meso_link id="2" />
+      <meso_link id="3" />
+      <meso_link id="4" />
+    </meso_links>
+  </model>
+
+
+  <demands>
+    <demand link_id="1" commodity_id="1" start_time="0" dt="0">100</demand>
+    <demand link_id="2" commodity_id="1" start_time="0" dt="0">200</demand>
+  </demands>
+
+  <splits>
+    <split_node node_id="0" commodity_id="1" link_in="1" start_time="0" dt="0">
+      <split link_out="3">1.0</split>
+      <split link_out="4">0.0</split>
+    </split_node>
+    <split_node node_id="0" commodity_id="1" link_in="2" start_time="0" dt="0">
+      <split link_out="3">0.0</split>
+      <split link_out="4">1.0</split>
+    </split_node>
+  </splits>
+  
+  <actuators>
+    <actuator id="1" actuator_type="signal">
+      <actuator_target id="0" type="node"/>
+
+      <signal>
+        <phase nema="1" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="1" lanes="1-2"/>
+          </link_references>
+        </phase>
+        <phase nema="2" yellow_time="3" red_clear_time="2" min_green_time="0">
+          <link_references>
+            <link_reference id="2" lanes="1-2"/>
+          </link_references>
+        </phase>
+      </signal>
+    </actuator>
+  </actuators>
+
+
+  <controllers id="1">
+    <controller type="SIG_Pretimed" id="1">
+      <target_actuators>
+        <target_actuator id="1"/>
+      </target_actuators>
+      <stages offset="10">
+        <stage order="1" phases="1" green_time="10"/>
+        <stage order="2" phases="2" green_time="10"/>
+      </stages>
+    </controller>
+  </controllers>
+
+</scenario>

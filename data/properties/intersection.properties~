@@ -1,0 +1,4 @@
+SCENARIO = data//config//intersection.xml
+START_TIME = 0
+DURATION = 1200
+VERBOSE = false

@@ -1,4 +1,4 @@
-# traffic_control
+# Stage 3A - Traffic Control
 
 Research Intership project at UC Berkeley. For more details on the problem and our results, please check our report.
 

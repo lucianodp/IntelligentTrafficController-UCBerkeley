@@ -1,6 +1,6 @@
-# Stage 3A - Traffic Control
+# UC Berkeley Internship - Intelligent Traffic Controllers
 
-Research Intership project at UC Berkeley. For more details on the problem and our results, please check our report.
+Research Intership project at UC Berkeley. For more details on the problem and our results, please check our [report](Rapport%20Stage%203A%20-%20Luciano%20Di%20Palma.pdf).
 
 **Objective**: The objective was to build an intelligent traffic lights controller, capable of adapting the amount of green / red time for each lane as a function of the influc of vehicles.
 
